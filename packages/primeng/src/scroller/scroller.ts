@@ -709,7 +709,7 @@ export class Scroller extends BaseComponent implements OnInit, AfterContentInit,
                     last: Math.min(step ? step : this.last$$(), (<any[]>this.items$$()).length)
                 });
 
-                this.handleEvents('onLazyLoad', this.lazyLoadState$$());
+                this.onLazyLoad.emit(this.lazyLoadState$$());
             });
         }
     }
@@ -898,7 +898,7 @@ export class Scroller extends BaseComponent implements OnInit, AfterContentInit,
             this.last$$.set(last);
             this.lastScrollPos$$.set(scrollPos);
 
-            this.handleEvents('onScrollIndexChange', newState);
+            this.onScrollIndexChange.emit(newState as unknown as any);
 
             if (this.lazy$$() && this.isPageChanged(first)) {
                 const step = this.step$$();
@@ -906,16 +906,17 @@ export class Scroller extends BaseComponent implements OnInit, AfterContentInit,
                     first: step ? Math.min(this.getPageByFirst(first) * step, (<any[]>this.items$$()).length - step) : first,
                     last: Math.min(step ? (this.getPageByFirst(first) + 1) * step : last, (<any[]>this.items$$()).length)
                 };
-                const isLazyStateChanged = this.lazyLoadState$$().first !== lazyLoadState.first || this.lazyLoadState$$().last !== lazyLoadState.last;
+                if (this.lazyLoadState$$().first !== lazyLoadState.first || this.lazyLoadState$$().last !== lazyLoadState.last) {
+                    this.onLazyLoad.emit(lazyLoadState as unknown as any);
+                }
 
-                isLazyStateChanged && this.handleEvents('onLazyLoad', lazyLoadState);
                 this.lazyLoadState$$.set(lazyLoadState);
             }
         }
     }
 
     onContainerScroll(event: Event) {
-        this.handleEvents('onScroll', { originalEvent: event });
+        this.onScroll.emit({ originalEvent: event });
 
         if (this.delay$$() && this.isPageChanged()) {
             if (this.scrollTimeout) {
@@ -989,11 +990,6 @@ export class Scroller extends BaseComponent implements OnInit, AfterContentInit,
                     });
             }
         }, this.resizeDelay$$());
-    }
-
-    handleEvents(name: string, params: any) {
-        //@ts-ignore
-        return this.options && (<any>this.options)[name] ? (<any>this.options)[name](params) : this[name].emit(params);
     }
 
     contentOptions$$ = computed(() => {
