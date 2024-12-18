@@ -58,7 +58,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
                 [attr.data-pc-section]="'root'"
             >
                 @if (contentTemplate$$() || _contentTemplate$$()) {
-                    <ng-container *ngTemplateOutlet="contentTemplate$$() || _contentTemplate$$(); context: { $implicit: loadedItems$$(), options: getContentOptions$$() }"></ng-container>
+                    <ng-container *ngTemplateOutlet="contentTemplate$$() || _contentTemplate$$(); context: { $implicit: loadedItems$$(), options: contentOptions$$() }"></ng-container>
                 } @else {
                     <div #content class="p-virtualscroller-content" [ngClass]="{ 'p-virtualscroller-loading ': d_loading$$() }" [ngStyle]="contentStyle$$()" [attr.data-pc-section]="'content'">
                         <!-- @for (item of loadedItems$$(); track getTrackFn($index, item); let index = $index) {
@@ -996,7 +996,7 @@ export class Scroller extends BaseComponent implements OnInit, AfterContentInit,
         return this.options && (<any>this.options)[name] ? (<any>this.options)[name](params) : this[name].emit(params);
     }
 
-    getContentOptions$$ = computed(() => {
+    contentOptions$$ = computed(() => {
         return {
             contentStyleClass: `p-virtualscroller-content ${this.d_loading$$() ? 'p-virtualscroller-loading' : ''}`,
             items: this.loadedItems$$(),
