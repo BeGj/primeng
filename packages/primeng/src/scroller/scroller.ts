@@ -101,7 +101,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
             }
         }
     `,
-    changeDetection: ChangeDetectionStrategy.Default,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     providers: [ScrollerStyle]
 })
