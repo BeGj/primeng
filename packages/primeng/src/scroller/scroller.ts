@@ -40,7 +40,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
     imports: [CommonModule, SpinnerIcon, SharedModule],
     standalone: true,
     template: `
-        @if (!this.disabled$$()) {
+        @if (!disabled$$()) {
             <div
                 #element
                 [attr.id]="id$$()"
@@ -49,7 +49,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
                 [class]="styleClass$$()"
                 [ngClass]="{
                     'p-virtualscroller': true,
-                    'p-virtualscroller-inline': this.inline$$(),
+                    'p-virtualscroller-inline': inline$$(),
                     'p-virtualscroller-both p-both-scroll': both$$(),
                     'p-virtualscroller-horizontal p-horizontal-scroll': horizontal$$()
                 }"
@@ -73,7 +73,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
                 @if (showSpacer$$()) {
                     <div class="p-virtualscroller-spacer" [ngStyle]="spacerStyle$$()" [attr.data-pc-section]="'spacer'"></div>
                 }
-                @if (!loaderDisabled$$() && this.showLoader$$() && d_loading$$()) {
+                @if (!loaderDisabled$$() && showLoader$$() && d_loading$$()) {
                     <div class="p-virtualscroller-loader" [ngClass]="{ 'p-virtualscroller-loader-mask': !loaderTemplate$$() }" [attr.data-pc-section]="'loader'">
                         @if (loaderTemplate$$() || _loaderTemplate$$()) {
                             @for (item of loaderArr$$(); track $index; let index = $index) {
@@ -97,7 +97,7 @@ import { ScrollerStyle } from './style/scrollerstyle';
         } @else {
             <ng-content></ng-content>
             @if (contentTemplate$$() || _contentTemplate$$()) {
-                <ng-container *ngTemplateOutlet="contentTemplate$$() || _contentTemplate$$(); context: { $implicit: this.items$$(), options: { rows: this.items$$(), columns: loadedColumns$$() } }"></ng-container>
+                <ng-container *ngTemplateOutlet="contentTemplate$$() || _contentTemplate$$(); context: { $implicit: items$$(), options: { rows: items$$(), columns: loadedColumns$$() } }"></ng-container>
             }
         }
     `,
